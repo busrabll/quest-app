@@ -27,7 +27,7 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public User getOneUser(int userId) {
+	public User getOneUserById(int userId) {
 		return userRepository.findById(userId).orElse(null);
 	}
 

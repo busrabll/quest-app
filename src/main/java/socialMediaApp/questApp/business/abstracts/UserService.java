@@ -7,7 +7,7 @@ import socialMediaApp.questApp.entities.User;
 public interface UserService {
 	List<User> getAll();
 	User saveOneUser(User newUser);
-	User getOneUser(int userId);
+	User getOneUserById(int userId);
 	User updateOneUser(int userId, User newUser);
 	void deleteById(int userId); 
 }
