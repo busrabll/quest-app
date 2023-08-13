@@ -2,6 +2,7 @@ package socialMediaApp.questApp.business.concretes;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import socialMediaApp.questApp.business.abstracts.PostService;
 import socialMediaApp.questApp.business.abstracts.UserService;
 import socialMediaApp.questApp.business.requests.PostCreateRequest;
 import socialMediaApp.questApp.business.requests.PostUpdateRequest;
+import socialMediaApp.questApp.business.responses.PostResponse;
 import socialMediaApp.questApp.dataAccess.PostRepository;
 import socialMediaApp.questApp.entities.Post;
 import socialMediaApp.questApp.entities.User;
@@ -17,15 +19,17 @@ import socialMediaApp.questApp.entities.User;
 @Service
 @AllArgsConstructor
 public class PostManager implements PostService {
-	
+
 	private PostRepository postRepository;
 	private UserService userService;
 
 	@Override
-	public List<Post> getAllPosts(Optional<Integer> userId) {
-		if(userId.isPresent())
-			return postRepository.findByUserId(userId.get());
-		return postRepository.findAll();
+	public List<PostResponse> getAllPosts(Optional<Integer> userId) {
+		List<Post> list;
+		if (userId.isPresent())
+			list = postRepository.findByUserId(userId.get());
+		list = postRepository.findAll();
+		return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -36,21 +40,21 @@ public class PostManager implements PostService {
 	@Override
 	public Post createOnePost(PostCreateRequest newPostRequest) {
 		User user = userService.getOneUserById(newPostRequest.getUserId());
-		if(user == null)
+		if (user == null)
 			return null;
 		Post toSave = new Post();
 		toSave.setId(newPostRequest.getId());
 		toSave.setText(newPostRequest.getText());
 		toSave.setTitle(newPostRequest.getTitle());
 		toSave.setUser(user);
-		
+
 		return postRepository.save(toSave);
 	}
 
 	@Override
 	public Post updateOnePostById(int postId, PostUpdateRequest updatePost) {
 		Optional<Post> post = postRepository.findById(postId);
-		if(post.isPresent()) {
+		if (post.isPresent()) {
 			Post toUpdate = post.get();
 			toUpdate.setText(updatePost.getText());
 			toUpdate.setTitle(updatePost.getTitle());

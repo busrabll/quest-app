@@ -5,11 +5,12 @@ import java.util.Optional;
 
 import socialMediaApp.questApp.business.requests.PostCreateRequest;
 import socialMediaApp.questApp.business.requests.PostUpdateRequest;
+import socialMediaApp.questApp.business.responses.PostResponse;
 import socialMediaApp.questApp.entities.Post;
 
 public interface PostService {
 
-	List<Post> getAllPosts(Optional<Integer> userId);
+	List<PostResponse> getAllPosts(Optional<Integer> userId);
 	Post getOnePostById(int postId);
 	Post createOnePost(PostCreateRequest newPostRequest);
 	Post updateOnePostById(int postId, PostUpdateRequest updatePost);

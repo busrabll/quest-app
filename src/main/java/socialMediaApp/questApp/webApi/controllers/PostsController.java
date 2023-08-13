@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import socialMediaApp.questApp.business.abstracts.PostService;
 import socialMediaApp.questApp.business.requests.PostCreateRequest;
 import socialMediaApp.questApp.business.requests.PostUpdateRequest;
+import socialMediaApp.questApp.business.responses.PostResponse;
 import socialMediaApp.questApp.entities.Post;
 
 @RestController
@@ -27,7 +28,7 @@ public class PostsController {
 	PostService postService;
 	
 	@GetMapping()
-	public List<Post> getAllPosts(@RequestParam Optional<Integer> userId){
+	public List<PostResponse> getAllPosts(@RequestParam Optional<Integer> userId){
 		return postService.getAllPosts(userId);
 	}
 	
